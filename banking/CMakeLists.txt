@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.10)
+project(my_work)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(Account STATIC Account.cpp)
+add_library(Transaction STATIC Transaction.cpp)
+target_link_libraries(Transaction Account)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})

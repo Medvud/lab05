@@ -1,0 +1,2 @@
+/usr/bin/ar qc libTransaction.a CMakeFiles/Transaction.dir/Transaction.cpp.o
+/usr/bin/ranlib libTransaction.a
