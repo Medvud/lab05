@@ -1,4 +1,0 @@
-/home/mvtop/homework5/lab05/banking/_build/CMakeFiles/Account.dir
-/home/mvtop/homework5/lab05/banking/_build/CMakeFiles/Transaction.dir
-/home/mvtop/homework5/lab05/banking/_build/CMakeFiles/edit_cache.dir
-/home/mvtop/homework5/lab05/banking/_build/CMakeFiles/rebuild_cache.dir
