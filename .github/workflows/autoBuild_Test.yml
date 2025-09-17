@@ -21,10 +21,10 @@ jobs:
         sudo apt-get install -y cmake build-essential lcov
         
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCMAKE_CXX_FLAGS="--coverage"
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_EXE_LINKER_FLAGS="--coverage"
       
     - name: Build
-      run: cmake --build ${{github.workspace}}/build --config Release --target tests
+      run: cmake --build ${{github.workspace}}/build --config Debug --target tests
       
     - name: Test
       working-directory: ${{github.workspace}}/build
@@ -35,7 +35,7 @@ jobs:
     - name: Generate Coverage
       working-directory: ${{github.workspace}}/build
       run: |
-        lcov --directory . --capture --output-file coverage.info
+        lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch
         lcov --remove coverage.info '*/third-party/*' '*/tests/*' '/usr/*' --output-file coverage.info
         lcov --list coverage.info
         
