@@ -5,8 +5,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_TESTS "Build tests" OFF)
 
-add_subdirectory(banking)
+add_library(Account STATIC banking/Account.cpp)
+add_library(Transaction STATIC banking/Transaction.cpp)
+target_link_libraries(Transaction Account)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/banking)
 
 if(BUILD_TESTS)
+  enable_testing()
   add_subdirectory(third-party/gtest)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/banking ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gtest/googletest/include ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gtest/googlemock/include)
+  add_executable(tests tests/test1.cpp)
+  target_link_libraries(tests Transaction gtest gtest_main gmock)
+  add_test(test tests)
 endif()
