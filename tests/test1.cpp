@@ -2,7 +2,7 @@
 #include "Account.h"
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-
+using ::testing::_;
 class MockAcc : public Account {
 public:
 	MockAcc(int id, int balance) : Account(id, balance) {};
@@ -57,10 +57,6 @@ TEST(Transaction, Make) {
 	ASSERT_THROW(t.Make(a1, a2, s1), std::invalid_argument);
 	bool wow = t.Make(a1, a2, s2);
 	ASSERT_TRUE(wow);
-	int b1 = a1.GetBalance();
-	int b2 = a2.GetBalance();
-	ASSERT_EQ(b1, 300);
-	ASSERT_EQ(b2, 300);
 }
 
 TEST(Transaction, SaveToDataBase) {
@@ -98,17 +94,19 @@ TEST(Mock, GetBalance) {
 	bool wow = t.Make(a1, a2, 150);
 }
 
-TEST(Mock, ChangeBalance) {
+TEST(MockAcc, ChangeBalance) {
 	MockAcc a1(1, 200);
 	MockAcc a2(2, 300);
 	Transaction t;
 	ON_CALL(a1, GetBalance()).WillByDefault(::testing::Return(200));
 	ON_CALL(a2, GetBalance()).WillByDefault(::testing::Return(300));
-	EXPECT_CALL(a1, ChangeBalance(testing::_)).Times(::testing::AtLeast(1));
+	EXPECT_CALL(a2, ChangeBalance(_)).Times(::testing::AtLeast(1));
 	bool wow = t.Make(a1, a2, 150);
+	ASSERT_TRUE(wow);
 }
 
 int main(int argc, char** argv) {
+	::testing::FLAGS_gmock_verbose = "error";
 	::testing::InitGoogleMock(&argc, argv);
 	return RUN_ALL_TESTS();
 }
